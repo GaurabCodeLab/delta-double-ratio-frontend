@@ -91,6 +91,30 @@ const Overview = ({ health, status, summary, prevIndexPrice }) => {
                 {formatPnl(summary?.unrealized_pnl)}
               </span>
             </p>
+            <p className="mt-2 text-sm">
+              Realized PnL :{" "}
+              <span
+                className={getPnlClass(
+                  summary?.realized_pnl ?? status?.strategy_state?.realized_pnl,
+                )}
+              >
+                {formatPnl(
+                  summary?.realized_pnl ?? status?.strategy_state?.realized_pnl,
+                )}
+              </span>
+            </p>
+            <p className="mt-2 text-sm">
+              Combined PnL :{" "}
+              <span
+                className={getPnlClass(
+                  summary?.combined_pnl ?? status?.strategy_state?.combined_pnl,
+                )}
+              >
+                {formatPnl(
+                  summary?.combined_pnl ?? status?.strategy_state?.combined_pnl,
+                )}
+              </span>
+            </p>
             <p className={`mt-2 text-sm`}>
               Index price :{" "}
               <span

@@ -1,5 +1,6 @@
 import { useEffect, useEffectEvent, useState } from "react";
 import PositionTable from "../components/PositionTable";
+import ClosedPositionTable from "../components/ClosedPositionTable";
 import LogsPanel from "../components/LogsPanel";
 import Overview from "../components/Overview";
 import Stats from "../components/Stats";
@@ -10,7 +11,10 @@ function App() {
   const [status, setStatus] = useState({ running: false, strategy_state: {} });
   const [summary, setSummary] = useState({
     positions: [],
+    closed_positions: [],
     unrealized_pnl: 0,
+    realized_pnl: 0,
+    combined_pnl: 0,
     index_price: 0,
     position_count: 0,
     profit_exit_threshold_usd: null,
@@ -177,6 +181,7 @@ function App() {
           prevIndexPrice={prevIndexPrice}
         />
         <PositionTable summary={summary} />
+        <ClosedPositionTable summary={summary} />
         <LogsPanel logs={logs} />
       </div>
     </div>
