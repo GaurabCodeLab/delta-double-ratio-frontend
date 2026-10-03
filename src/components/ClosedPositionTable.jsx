@@ -2,8 +2,21 @@ import { getPnlClass, formatPnl } from "../utils/commonUtils";
 
 const formatDateTime = (value) => {
   if (!value) return "—";
+
   const date = new Date(value);
-  return Number.isNaN(date.getTime()) ? value : date.toLocaleString();
+  if (Number.isNaN(date.getTime())) return value;
+
+  const day = String(date.getDate()).padStart(2, "0");
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const year = date.getFullYear();
+
+  let hours = date.getHours();
+  const minutes = String(date.getMinutes()).padStart(2, "0");
+  const meridiem = hours >= 12 ? "PM" : "AM";
+
+  hours = hours % 12 || 12;
+
+  return `${day}-${month}-${year}, ${hours}:${minutes} ${meridiem}`;
 };
 
 const ClosedPositionTable = ({ summary }) => {
@@ -46,11 +59,11 @@ const ClosedPositionTable = ({ summary }) => {
                   key={position.fill_id ?? `${position.product_id}-${position.closed_time}`}
                   className="hover:bg-slate-950/60"
                 >
-                  <td className="whitespace-nowrap px-3 py-4">{position.symbol ?? "—"}</td>
+                  <td className="whitespace-nowrap px-3 py-4">{position.symbol.split("-").slice(0,3).join("-") ?? "—"}</td>
                   <td className="px-3 py-4">{position.type ?? position.option_type ?? "—"}</td>
                   <td className="px-3 py-4">{position.strike ?? "—"}</td>
                   <td className="whitespace-nowrap px-3 py-4">
-                    {position.expiry ? String(position.expiry).split("T")[0] : "—"}
+                    {position.expiry ? String(position.expiry).split("T")[0].split("-").reverse().join("-") : "—"}
                   </td>
                   <td className="px-3 py-4">{position.side ?? "—"}</td>
                   <td className="px-3 py-4">{position.size ?? position.quantity ?? "—"}</td>
